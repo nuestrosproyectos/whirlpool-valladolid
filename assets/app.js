@@ -211,7 +211,8 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
     var setAp = function (k) {
       ap = k; chips.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-ap') === k ? 'true' : 'false'); });
       pintaAtajos(k);
-      if (input.value.trim()) go(input.value); else if (res) { res.innerHTML = ''; }
+      /* al cambiar de aparato se empieza de cero: el código anterior no se arrastra */
+      input.value = ''; x.classList.remove('on'); limpia(); if (res) res.innerHTML = '';
     };
     chips.forEach(function (b) { b.addEventListener('click', function () { setAp(ap === b.getAttribute('data-ap') ? null : b.getAttribute('data-ap')); if (b.getAttribute('data-ap') === 'placa' && placaSinCodigos()) placa(); }); });
     bindAtajos();
