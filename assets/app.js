@@ -25,14 +25,6 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
   if (document.body.getAttribute('data-zona')) Z.set(document.body.getAttribute('data-zona'));
   var zonaTxt = function () { return Z.get() || '[tu barrio o municipio]'; };
 
-  /* ---------- horario */
-  function abierto() {
-    var d = new Date(), h = d.getHours() + d.getMinutes() / 60, w = d.getDay();
-    if (w >= 1 && w <= 5) return h >= 8 && h < 20;
-    if (w === 6) return h >= 9 && h < 14;
-    return false;
-  }
-  if (!abierto()) $$('[data-chip-hora]').forEach(function (el) { el.textContent = 'Te llamamos a primera hora (L–V desde las 8)'; });
 
   /* ---------- barra inferior: solo cuando los CTA del hero no se ven */
   var barra = $('.barra');
@@ -168,9 +160,6 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
     if (sigue) {
       $('.si', sigue).addEventListener('click', function () {
         llamar.classList.add('on'); ok.classList.remove('on'); el.classList.add('hot'); refresca();
-        bTel.innerHTML = ico('tel') + 'Que me llame un técnico · 60,50 € IVA incl., se descuenta';
-        bTel.setAttribute('href', '#contacto'); bTel.removeAttribute('data-cta-tel');
-        bTel.addEventListener('click', function (e) { e.preventDefault(); prefill(c.ap, codigo); });
         $('.si', sigue).setAttribute('aria-pressed', 'true'); $('.no', sigue).removeAttribute('aria-pressed');
       });
       $('.no', sigue).addEventListener('click', function () {
@@ -288,7 +277,6 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
     });
     input.addEventListener('blur', function () { setTimeout(limpia, 150); });
     x.addEventListener('click', function () { input.value = ''; res.innerHTML = ''; limpia(); x.classList.remove('on'); input.focus(); });
-    var f = $('form', root); if (f) f.addEventListener('submit', function (e) { e.preventDefault(); go(input.value); });
     root.__go = function (q) { input.value = q; go(q); };
   }
   $$('.bus').forEach(initBus);
@@ -301,57 +289,7 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
   }
   abreAncla(); window.addEventListener('hashchange', abreAncla);
 
-  /* ================================================================ FORMULARIO */
-  var form = $('#form-llamada');
-  function prefill(apId, codigo) {
-    if (!form) return;
-    if (apId) $$('[name=aparato]', form).forEach(function (r) { r.checked = r.value === APARATOS[apId].nombre; });
-    if (codigo) { $('[name=codigo]', form).value = codigo; var s = $$('[name=sintoma]', form).filter(function (r) { return r.value === 'Error en pantalla'; })[0]; if (s) s.checked = true; }
-    form.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-    setTimeout(function () { $('[name=telefono]', form).focus({ preventScroll: true }); }, 500);
-  }
-  window.RBV = { prefill: prefill, zona: Z };
-  function abreWA(t) { var w = window.open(wa(t), '_blank'); if (w) w.opener = null; else location.href = wa(t); }
-  if (form) {
-    var zsel = $('[name=zona]', form);
-    if (zsel) { if (Z.get()) zsel.value = Z.get(); zsel.addEventListener('change', function () { Z.set(zsel.value); $$('a[data-wa]').forEach(function (a) { a.href = wa(a.getAttribute('data-wa').replace('[zona]', zonaTxt())); }); }); }
-    var dl = $('#lista-codigos'); if (dl) { var ks = {}; CODIGOS.forEach(function (c) { c.keys.forEach(function (k) { if (k.length > 2) ks[k] = APARATOS[c.ap].nombre; }); }); dl.innerHTML = Object.keys(ks).sort().map(function (k) { return '<option value="' + k + '">' + ks[k] + '</option>'; }).join(''); }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if ($('[name=web]', form).value) return; /* honeypot */
-      var tel = $('[name=telefono]', form), g = tel.closest('.f-g'), num = tel.value.replace(/[\s\-\.]/g, '');
-      var okTel = /^(\+34|0034)?[6789]\d{8}$/.test(num); g.classList.toggle('bad', !okTel);
-      var rg = $('[name=rgpd]', form), gr = rg.closest('.f-g'); gr.classList.toggle('bad', !rg.checked);
-      if (!okTel) { tel.focus(); return; } if (!rg.checked) { rg.focus(); return; }
-      var ap = ($$('[name=aparato]:checked', form)[0] || {}).value || '', si = ($$('[name=sintoma]:checked', form)[0] || {}).value || '';
-      var cod = $('[name=codigo]', form).value.trim().toUpperCase(), zona = zsel ? zsel.value : '';
-      var t = 'Hola, quiero que me llaméis.';
-      if (ap) t += ' Aparato: ' + ap + ' ' + CONFIG.MARCA + '.'; if (si) t += ' Le pasa: ' + si.toLowerCase() + '.'; if (cod) t += ' Código: ' + cod + '.';
-      if (zona) t += ' Zona: ' + zona + '.'; t += ' Teléfono: ' + tel.value.trim() + '.';
-      var fin = function () { form.hidden = true; var ok = $('.f-ok', form.parentNode); ok.classList.add('on'); ok.setAttribute('tabindex', '-1'); ok.focus(); };
-      if (CONFIG.FORM_ENDPOINT) {
-        fetch(CONFIG.FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify({ aparato: ap, sintoma: si, codigo: cod, telefono: tel.value, zona: zona, mensaje: t }) })
-          .then(function (r) { if (!r.ok) throw 0; fin(); }).catch(function () { abreWA(t); fin(); });
-      } else { abreWA(t); fin(); }
-    });
-  }
 
-  /* ---------- mini formulario del hero (landings de aparato) */
-  function validaTel(tel) { var g = tel.closest('.f-g'), num = tel.value.replace(/[\s\-\.]/g, ''); var ok = /^(\+34|0034)?[6789]\d{8}$/.test(num); g.classList.toggle('bad', !ok); return ok; }
-  $$('.form-mini').forEach(function (f) {
-    f.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if ($('[name=web]', f).value) return;
-      var tel = $('[name=telefono]', f), rg = $('[name=rgpd]', f), gr = rg.closest('.f-g');
-      var okTel = validaTel(tel); gr.classList.toggle('bad', !rg.checked);
-      if (!okTel) { tel.focus(); return; } if (!rg.checked) { rg.focus(); return; }
-      var ap = $('[name=aparato]', f).value, si = $('[name=sintoma]', f).value;
-      var t = 'Hola, quiero que me llaméis. Aparato: ' + ap + ' ' + CONFIG.MARCA + '.' + (si ? ' Le pasa: ' + si.toLowerCase() + '.' : '') + (Z.get() ? ' Zona: ' + Z.get() + '.' : '') + ' Teléfono: ' + tel.value.trim() + '.';
-      abreWA(t); f.hidden = true; var ok = $('.f-ok', f.parentNode); ok.classList.add('on'); ok.setAttribute('tabindex', '-1'); ok.focus();
-    });
-  });
-  var hfb = $('.hero-form-b');
-  if (hfb) hfb.addEventListener('click', function () { var on = hfb.getAttribute('aria-expanded') === 'true'; hfb.setAttribute('aria-expanded', on ? 'false' : 'true'); hfb.parentNode.classList.toggle('on', !on); if (!on) setTimeout(function () { $('.form-mini [name=telefono]').focus({ preventScroll: false }); }, 50); });
   /* ---------- desplegable de aparatos (cabecera) */
   var dd = $('.dd');
   if (dd) {
@@ -371,8 +309,7 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
       var dist = km === 'capital' ? 'Valladolid capital' : 'a ' + km + ' km del centro de Valladolid, dentro de nuestro radio de 20 km';
       info.innerHTML = '<p class="kicker">Cubrimos ' + esc(n) + ' · ' + dist + '</p><h3>Llama al <a class="link" href="' + CONFIG.TEL_HREF + '">' + CONFIG.TEL + '</a></h3><p>' + esc(z.getAttribute('data-txt') || '') + '</p>' +
         '<div class="grid grid-2"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="' + wa('Hola, tengo un ' + CONFIG.MARCA + ' que… Estoy en ' + n) + '">' + ico('wa') + 'WhatsApp desde ' + esc(n) + '</a>' +
-        (href ? '<a class="btn btn-ghost btn-sm" href="' + href + '">Ver ' + esc(n) + ' →</a>' : '<a class="btn btn-ghost btn-sm" href="#contacto">Te llamamos en &lt; 1 h</a>') + '</div>';
-      if (zsel) zsel.value = n;
+        (href ? '<a class="btn btn-ghost btn-sm" href="' + href + '">Ver ' + esc(n) + ' →</a>' : '<a class="btn btn-ghost btn-sm" href="' + CONFIG.TEL_HREF + '">Llamar · ' + CONFIG.TEL + '</a>') + '</div>';
     };
     zs.forEach(function (z) { z.addEventListener('click', function () { pinta(z); }); z.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pinta(z); } }); });
     /* el anillo de 20 km también responde: explica el área de actuación */

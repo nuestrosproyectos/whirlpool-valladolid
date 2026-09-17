@@ -63,14 +63,14 @@ p{margin:0 0 1em}
 @media(min-width:600px){.btn{width:auto}}
 .marca{color:var(--rojo-t);font-weight:inherit}
 .hero .marca,.hdr .marca,.pie .marca,.sec-tinta .marca,.barra .marca,.cierre .marca{color:var(--rojo-l)}
-.hero-tipo .marca,.bus .marca,.form-mini .marca,.sec-tinta .card .marca,.hero .ficha .marca{color:var(--rojo-t)}
+.hero-tipo .marca,.bus .marca,.sec-tinta .card .marca,.hero .ficha .marca{color:var(--rojo-t)}
 .hdr .wm svg,.pie .wm svg{color:var(--rojo-l)}
 .micro{font-size:12px;line-height:1.35;color:rgba(244,239,230,.75);margin:6px 0 0;text-align:center}
 @media(min-width:600px){.micro{text-align:left}}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
 .chip{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:5px 12px;border-radius:999px;border:1px solid rgba(244,239,230,.3);font:500 13px/1.2 var(--fb);color:var(--crema);background:rgba(244,239,230,.06)}
 .chip .mono{font-size:14px;color:var(--rojo-l)}
-.hero-tipo .chip .mono,.form .chip .mono{color:var(--rojo-t)}
+.hero-tipo .chip .mono{color:var(--rojo-t)}
 .chip-precio{border-color:rgba(226,167,15,.75);background:rgba(138,98,10,.18)}
 .hero-tipo .chip-precio{border-color:var(--rojo);background:var(--rojo-2)}
 .chip svg{width:16px;height:16px;flex:none;color:var(--salvia)}
@@ -343,24 +343,12 @@ details .in{padding:0 0 16px;color:#3A4A5A}
 .dato b{display:block;font:700 28px/1.1 var(--fd);margin:4px 0}
 .dato span{font-size:14px;color:#3A4A5A}
 
-/* ---------- formulario */
-.form{background:#fff;border:1px solid var(--tinta);border-radius:var(--r);padding:22px;max-width:720px}
-.f-g{margin-bottom:18px}
-.f-g>label,.f-g>.lb{display:block;font-weight:600;margin-bottom:8px;font-size:15px}
-.f-g .op{font-weight:400;color:#55636F;font-size:13px}
-.f-g input[type=text],.f-g input[type=tel],.f-g select{width:100%;font:16px var(--fb);padding:13px 14px;border:1.5px solid var(--gris);border-radius:var(--r2);background:#fff;color:var(--tinta);min-height:50px}
-.f-g input.mono{font-family:var(--fm);text-transform:uppercase}
-.f-g input:focus,.f-g select:focus{border-color:var(--tinta);outline:3px solid var(--rojo);outline-offset:1px}
-.f-g input[type=file]{font-size:14px}
-.f-g .err{display:none;color:#8A4E12;font-size:13px;margin-top:6px}
-.f-g.bad .err{display:block}.f-g.bad input{border-color:var(--rojo)}
-.f-rgpd{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-size:13px;color:#3A4A5A;margin:0 0 16px}
-.f-rgpd input{width:20px;height:20px;margin:0;accent-color:var(--salvia)}
-.f-ok{display:none;background:var(--salvia-2);border-radius:var(--r2);padding:18px;color:#2F4736}
-.f-ok.on{display:block}
-.f-ok b{display:block;font-size:17px;margin-bottom:6px}
-.hp{position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden}
+/* ---------- contacto (llamar / WhatsApp) */
 .f-nota{font-size:13px;color:#55636F;margin:10px 0 0}
+.contacto{background:#fff;border:1px solid var(--tinta);border-radius:var(--r);padding:22px;max-width:720px}
+.contacto-h{display:flex;align-items:center;gap:8px;font-weight:600;margin:0 0 14px}.contacto-h svg{width:20px;height:20px;flex:none;color:var(--salvia-t)}
+.contacto-g{display:grid;gap:10px}@media(min-width:600px){.contacto-g{grid-template-columns:1fr 1fr}}
+.btn-xl{min-height:56px;font-size:17px;justify-content:center}
 
 /* ---------- cierre */
 .cierre{text-align:center}
@@ -437,23 +425,6 @@ details .in{padding:0 0 16px;color:#3A4A5A}
 .seguridad svg{width:28px;height:28px;color:#8A4E12}
 .seguridad p{margin:0;font-size:14px;line-height:1.45}
 .seguridad b{color:#3E2408}
-.hero-form{margin-top:4px}
-.hero-form-b{width:100%;flex-wrap:nowrap;font-size:16px;color:var(--crema);border-color:rgba(244,239,230,.5);background:rgba(244,239,230,.06)}
-.hero-form-p{display:none;margin-top:12px}
-.hero-form.on .hero-form-p{display:block}
-.form-mini{background:var(--crema);color:var(--tinta);border:1px solid var(--tinta);border-radius:var(--r);padding:20px}
-.form-mini h2{font-size:22px;margin:0 0 4px}
-.form-mini .ayuda{font-size:13px;color:#55636F;margin:0 0 14px}
-.form-mini .f-g{margin-bottom:14px}
-.form-mini .btn{width:100%}
-.hero-form .f-ok{margin-top:12px}
 .hero-sub .hero-in{min-width:0}
-@media(min-width:1024px){
-  .hero-sub .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center}
-  .hero-form{margin:0}
-  .hero-form-b{display:none}
-  .hero-form-p{display:block;margin:0}
-  .hero-form .form-mini{padding:24px}
-}
 
 .bus-top-nota{display:block;font-size:14px;opacity:.85}
