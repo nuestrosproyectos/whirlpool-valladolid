@@ -307,13 +307,24 @@ details .in{padding:0 0 16px;color:#3A4A5A}
 .mapa{display:grid;gap:20px}
 @media(min-width:900px){.mapa{grid-template-columns:1.1fr .9fr;align-items:center}}
 .mapa>svg{width:100%;height:auto;background:#fff;border:1px solid var(--gris);border-radius:var(--r);font-family:var(--fb)}
+.mapa .anillo{fill:none;stroke:var(--tinta);stroke-width:1.2;stroke-dasharray:6 5;opacity:.55}
+.mapa .anillo-20{fill:#FBF1D6;fill-opacity:.55;stroke-width:2;opacity:1;cursor:pointer}
+.mapa .anillo-20:hover,.mapa .anillo-20.on{fill-opacity:.8}
+.mapa .anillo-t{font-size:11px;fill:#55636F;font-weight:600}
+.mapa .ciudad{fill:var(--crema-2);stroke:var(--tinta);stroke-width:1.5}
+.mapa .ciudad-t{font-size:11px;letter-spacing:.12em;fill:var(--tinta);font-weight:700}
+.mapa .ciudad-s{font-size:9.5px;fill:#55636F}
 .mapa .z{cursor:pointer}
-.mapa .z circle{fill:var(--crema-2);stroke:var(--tinta);stroke-width:1.5;transition:fill .2s,r .2s}
-.mapa .z.mun circle{fill:#fff;stroke:var(--salvia);stroke-dasharray:3 2}
-.mapa .z text{font-size:11px;fill:var(--tinta);pointer-events:none;font-weight:500}
+.mapa .z circle{fill:#fff;stroke:var(--tinta);stroke-width:1.5;transition:fill .2s}
+.mapa .z.bar circle{fill:var(--tinta)}
+.mapa .z.mun circle{fill:#fff;stroke:var(--rojo);stroke-width:2}
+.mapa .z text{font-size:10.5px;fill:var(--tinta);cursor:pointer;font-weight:600;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.mapa .z text .km{font-weight:400;fill:#55636F}
 .mapa .z:hover circle,.mapa .z.on circle{fill:var(--rojo);stroke:var(--tinta)}
 .mapa .z:focus{outline:none}.mapa .z:focus circle{stroke:var(--rojo);stroke-width:3}
-.mapa .rio{fill:none;stroke:#BFD3E6;stroke-width:8;stroke-linecap:round}
+.mapa .leyenda text,.mapa .escala{font-size:10.5px;fill:#55636F}
+.mapa .leyenda .l-bar{fill:var(--tinta)}.mapa .leyenda .l-mun{fill:#fff;stroke:var(--rojo);stroke-width:2}
+
 .mapa-info{background:#fff;border:1px solid var(--tinta);border-radius:var(--r);padding:20px;min-height:160px}
 .mapa-info h3{margin:0 0 4px}
 .mapa-info p{color:#3A4A5A;font-size:15px}

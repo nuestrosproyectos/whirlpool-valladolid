@@ -3,7 +3,7 @@
   'use strict';
   var CONFIG = {
     TEL: '641 153 922', TEL_HREF: 'tel:+34641153922',
-    WA: '641 153 922', WA_BASE: 'https://wa.me/34641153922?text=',
+    WA: '641 153 922', WA_BASE: 'https://wa.me/34641153922?text=', PRECIO: '60,50 €',
     MARCA: 'Whirlpool', MARCA_RE: /\b(WHIRLPOOL|INDESIT|IGNIS|HOTPOINT)\b/g, SAT_TXT: '<a href="https://www.whirlpool.es/soporte" rel="nofollow noopener" target="_blank">whirlpool.es</a> · 932 382 355', ETIQUETA: 'número de modelo', F_ES_E: false,
     FORM_ENDPOINT: '' /* vacío = envío por WhatsApp (canal citado en Privacidad); si se activa un proveedor, actualizar Privacidad */
   };
@@ -367,12 +367,24 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
     var info = $('.mapa-info', mapa), zs = $$('.z', mapa);
     var pinta = function (z) {
       zs.forEach(function (o) { o.classList.toggle('on', o === z); });
-      var n = z.getAttribute('data-nombre'), href = z.getAttribute('data-href'); Z.set(n);
-      info.innerHTML = '<p class="kicker">Cubrimos ' + esc(n) + '</p><h3>Llama al <a class="link" href="' + CONFIG.TEL_HREF + '">' + CONFIG.TEL + '</a></h3><p>' + esc(z.getAttribute('data-txt') || '') + '</p>' +
+      var n = z.getAttribute('data-nombre'), href = z.getAttribute('data-href'), km = z.getAttribute('data-km'); Z.set(n);
+      var dist = km === 'capital' ? 'Valladolid capital' : 'a ' + km + ' km del centro de Valladolid, dentro de nuestro radio de 20 km';
+      info.innerHTML = '<p class="kicker">Cubrimos ' + esc(n) + ' · ' + dist + '</p><h3>Llama al <a class="link" href="' + CONFIG.TEL_HREF + '">' + CONFIG.TEL + '</a></h3><p>' + esc(z.getAttribute('data-txt') || '') + '</p>' +
         '<div class="grid grid-2"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="' + wa('Hola, tengo un ' + CONFIG.MARCA + ' que… Estoy en ' + n) + '">' + ico('wa') + 'WhatsApp desde ' + esc(n) + '</a>' +
         (href ? '<a class="btn btn-ghost btn-sm" href="' + href + '">Ver ' + esc(n) + ' →</a>' : '<a class="btn btn-ghost btn-sm" href="#contacto">Te llamamos en &lt; 1 h</a>') + '</div>';
       if (zsel) zsel.value = n;
     };
     zs.forEach(function (z) { z.addEventListener('click', function () { pinta(z); }); z.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pinta(z); } }); });
+    /* el anillo de 20 km también responde: explica el área de actuación */
+    var an = $('.anillo-20', mapa);
+    if (an) {
+      var radio = function () {
+        zs.forEach(function (o) { o.classList.remove('on'); }); an.classList.add('on');
+        info.innerHTML = '<p class="kicker">Área de actuación</p><h3>' + an.getAttribute('data-radio') + ' km a la redonda de Valladolid</h3><p>Todo lo que ves dentro del círculo lo cubrimos con el mismo precio de visita: ' + CONFIG.PRECIO + ' IVA incl., descontados si reparas. Si tu pueblo no aparece en el mapa pero está dentro del radio, también vamos: escríbenos y te lo confirmamos.</p>' +
+          '<div class="grid grid-2"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="' + wa('Hola, ¿venís a mi zona? Estoy en ') + '">' + ico('wa') + 'Preguntar por mi pueblo</a><a class="btn btn-ghost btn-sm" href="' + CONFIG.TEL_HREF + '">Llamar · ' + CONFIG.TEL + '</a></div>';
+      };
+      an.addEventListener('click', radio); an.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); radio(); } });
+      zs.forEach(function (z) { z.addEventListener('click', function () { an.classList.remove('on'); }); });
+    }
   }
 })();
