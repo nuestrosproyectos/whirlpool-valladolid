@@ -187,7 +187,9 @@ p{margin:0 0 1em}
 .compensa ol{margin:0 0 14px;padding-left:22px}
 .compensa li{margin-bottom:8px}
 details{border-top:1px solid var(--gris)}
-details summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+details summary{cursor:pointer;padding:14px 0;font-weight:600;list-style:none;display:flex;justify-content:flex-start;align-items:center;gap:12px}
+details summary .q{flex:1 1 auto}
+details summary::after{margin-left:auto}
 details summary::-webkit-details-marker{display:none}
 details summary::after{content:"+";font:500 22px/1 var(--fm);color:var(--rojo-t);flex:none;transition:transform .25s var(--ease)}
 details[open] summary::after{transform:rotate(45deg)}
