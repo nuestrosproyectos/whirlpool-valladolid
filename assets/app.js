@@ -380,8 +380,8 @@ var APARATOS={"lavadora":{"id":"lavadora","nombre":"Lavadora","art":"una lavador
     if (an) {
       var radio = function () {
         zs.forEach(function (o) { o.classList.remove('on'); }); an.classList.add('on');
-        info.innerHTML = '<p class="kicker">Área de actuación</p><h3>' + an.getAttribute('data-radio') + ' km a la redonda de Valladolid</h3><p>Todo lo que ves dentro del círculo lo cubrimos con el mismo precio de visita: ' + CONFIG.PRECIO + ' IVA incl., descontados si reparas. Si tu pueblo no aparece en el mapa pero está dentro del radio, también vamos: escríbenos y te lo confirmamos.</p>' +
-          '<div class="grid grid-2"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="' + wa('Hola, ¿venís a mi zona? Estoy en ') + '">' + ico('wa') + 'Preguntar por mi pueblo</a><a class="btn btn-ghost btn-sm" href="' + CONFIG.TEL_HREF + '">Llamar · ' + CONFIG.TEL + '</a></div>';
+        info.innerHTML = '<p class="kicker">Área de actuación</p><h3>' + an.getAttribute('data-radio') + ' km a la redonda de Valladolid</h3><p>Trabajamos únicamente dentro de este círculo: Valladolid capital y los municipios a menos de 20 km del centro, todos con el mismo precio de visita: ' + CONFIG.PRECIO + ' IVA incl., descontados si reparas. Fuera del radio no damos servicio.</p>' +
+          '<div class="grid grid-2"><a class="btn btn-wa btn-sm" target="_blank" rel="noopener" href="' + wa('Hola, tengo un ' + CONFIG.MARCA + ' que… Estoy en ') + '">' + ico('wa') + 'WhatsApp</a><a class="btn btn-ghost btn-sm" href="' + CONFIG.TEL_HREF + '">Llamar · ' + CONFIG.TEL + '</a></div>';
       };
       an.addEventListener('click', radio); an.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); radio(); } });
       zs.forEach(function (z) { z.addEventListener('click', function () { an.classList.remove('on'); }); });
