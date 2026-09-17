@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://reparacionwhirlpoolvalladolid.es/sitemap.xml
