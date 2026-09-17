@@ -198,9 +198,9 @@ details .in{padding:0 0 16px;color:#3A4A5A}
 
 /* series */
 .series{list-style:none;margin:0;padding:0;display:grid;gap:0}
-.series li{display:grid;grid-template-columns:1fr;gap:2px;padding:14px 0;border-top:1px solid var(--gris)}
+.series li{display:grid;grid-template-columns:1fr;gap:6px;padding:16px 0;border-top:1px solid var(--gris)}
 .series li:last-child{border-bottom:1px solid var(--gris)}
-.series b{font-family:var(--fd);font-size:18px}
+.series b{display:block;font-family:var(--fd);font-size:18px;line-height:1.2}
 .series span{color:#3A4A5A;font-size:15px}
 @media(min-width:720px){.series li{grid-template-columns:260px 1fr;gap:16px}}
 
